@@ -78,7 +78,7 @@ func (g *JobGenerator) InitResources() error {
 
 func (g *JobGenerator) getProjects(url, token, username, password, apiVersion string) ([]RundeckProject, error) {
 	client := &http.Client{}
-	
+
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/%s/projects", url, apiVersion), nil)
 	if err != nil {
 		return nil, err
@@ -90,7 +90,7 @@ func (g *JobGenerator) getProjects(url, token, username, password, apiVersion st
 	} else if username != "" && password != "" {
 		req.SetBasicAuth(username, password)
 	}
-	
+
 	req.Header.Set("Accept", "application/json")
 
 	resp, err := client.Do(req)
@@ -120,7 +120,7 @@ func (g *JobGenerator) getProjects(url, token, username, password, apiVersion st
 
 func (g *JobGenerator) getJobs(url, token, username, password, apiVersion, project string) ([]RundeckJob, error) {
 	client := &http.Client{}
-	
+
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/api/%s/project/%s/jobs", url, apiVersion, project), nil)
 	if err != nil {
 		return nil, err
@@ -132,7 +132,7 @@ func (g *JobGenerator) getJobs(url, token, username, password, apiVersion, proje
 	} else if username != "" && password != "" {
 		req.SetBasicAuth(username, password)
 	}
-	
+
 	req.Header.Set("Accept", "application/json")
 
 	resp, err := client.Do(req)
@@ -162,10 +162,10 @@ func (g *JobGenerator) getJobs(url, token, username, password, apiVersion, proje
 
 func (g *JobGenerator) createJobResources(jobs []RundeckJob) []terraformutils.Resource {
 	var resources []terraformutils.Resource
-	
+
 	for _, job := range jobs {
 		resourceName := g.normalizeResourceName(job.Project, job.Group, job.Name)
-		
+
 		resources = append(resources, terraformutils.NewSimpleResource(
 			job.ID,
 			resourceName,
@@ -174,25 +174,25 @@ func (g *JobGenerator) createJobResources(jobs []RundeckJob) []terraformutils.Re
 			[]string{},
 		))
 	}
-	
+
 	return resources
 }
 
 func (g *JobGenerator) normalizeResourceName(project, group, name string) string {
 	var parts []string
-	
+
 	if project != "" {
 		parts = append(parts, g.sanitizeName(project))
 	}
-	
+
 	if group != "" {
 		parts = append(parts, g.sanitizeName(group))
 	}
-	
+
 	if name != "" {
 		parts = append(parts, g.sanitizeName(name))
 	}
-	
+
 	return strings.Join(parts, "_")
 }
 
@@ -204,11 +204,11 @@ func (g *JobGenerator) sanitizeName(name string) string {
 		}
 		return '_'
 	}, name)
-	
+
 	// Ensure it starts with a letter or underscore
 	if len(result) > 0 && result[0] >= '0' && result[0] <= '9' {
 		result = "_" + result
 	}
-	
+
 	return result
 }

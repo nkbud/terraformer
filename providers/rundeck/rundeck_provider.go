@@ -23,12 +23,12 @@ import (
 
 type RundeckProvider struct {
 	terraformutils.Provider
-	url           string
-	token         string
-	username      string
-	password      string
-	apiVersion    string
-	insecureSSL   bool
+	url         string
+	token       string
+	username    string
+	password    string
+	apiVersion  string
+	insecureSSL bool
 }
 
 func (p *RundeckProvider) Init(args []string) error {
@@ -37,13 +37,13 @@ func (p *RundeckProvider) Init(args []string) error {
 	p.username = args[2]
 	p.password = args[3]
 	p.apiVersion = args[4]
-	
+
 	if args[5] == "true" {
 		p.insecureSSL = true
 	} else {
 		p.insecureSSL = false
 	}
-	
+
 	return nil
 }
 
