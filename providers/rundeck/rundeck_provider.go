@@ -92,7 +92,8 @@ func (p *RundeckProvider) InitService(serviceName string, verbose bool) error {
 
 func (p *RundeckProvider) GetSupportedService() map[string]terraformutils.ServiceGenerator {
 	return map[string]terraformutils.ServiceGenerator{
-		"jobs": &JobGenerator{},
+		"jobs":     &JobGenerator{},
+		"projects": &ProjectGenerator{},
 	}
 }
 
